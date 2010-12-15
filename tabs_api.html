@@ -33,7 +33,7 @@ function createTabData(id) {
 function createTab() {
   var args = createTabData('new')
   try {
-	setTimeout(function(){chrome.tabs.create(args);}, 300);
+	chrome.tabs.create(args);
   } catch (e) {
     alert(e);
   }
@@ -55,7 +55,7 @@ chrome.tabs.onCreated.addListener(function(tab) {
 chrome.tabs.onRemoved.addListener(function(tabId) {
 	if (maxTabs>currentTab)
 	{
-		createTab();
+		setTimeout(function(){createTab();}, 300);	
 		currentTab++;
 	} else {
 	  var req = new XMLHttpRequest();
