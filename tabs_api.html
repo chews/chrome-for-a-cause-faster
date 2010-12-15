@@ -1,0 +1,79 @@
+<html>
+<head>
+<script src="jstemplate_compiled.js" type="text/javascript"></script>
+<script src="util.js" type="text/javascript"></script>
+<script>
+
+tabs = {};
+tabIds = [];
+maxTabs = 250;
+currentTab = 0;
+
+focusedWindowId = undefined;
+currentWindowId = undefined;
+
+function bootStrap() {
+  chrome.windows.getCurrent(function(currentWindow) {
+    currentWindowId = currentWindow.id;
+    chrome.windows.getLastFocused(function(focusedWindow) {
+      focusedWindowId = focusedWindow.id;
+      createTab();
+    });
+  });
+}
+
+
+function createTabData(id) {
+  return {
+    'url': 'chrome://newtab',
+    'selected': false
+  }
+}
+
+function createTab() {
+  var args = createTabData('new')
+  try {
+	setTimeout(function(){chrome.tabs.create(args);}, 300);
+  } catch (e) {
+    alert(e);
+  }
+}
+
+function removeTab(tabId) {
+  try {
+    chrome.tabs.remove(tabId, function() {
+    });
+  } catch (e) {
+    alert(e);
+  }
+}
+
+
+chrome.tabs.onCreated.addListener(function(tab) {
+  removeTab(tab.id);
+});
+chrome.tabs.onRemoved.addListener(function(tabId) {
+	if (maxTabs>currentTab)
+	{
+		createTab();
+		currentTab++;
+	} else {
+	  var req = new XMLHttpRequest();
+	  req.open('GET', 'http://spazout.com/chrome/tabs/increment.php', true);
+	  req.onreadystatechange = function(response) {
+	    if (req.readyState == 4) { 
+	      if (req.status == 200) {
+		    alert('Awesome job! Close this tab and do it again tomorrow!');
+	      }
+	    }
+	  };
+	  req.send(null);
+	}
+});
+</script>
+</head>
+  <body onload="bootStrap();">
+	<div>The "charity" counter should now be incrementing... So when you are done being "good" just close this tab and everything will go back to normal. Enjoy!</div>
+	<iframe SRC="http://spazout.com/chrome/tabs/" FRAMEBORDER="0" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="NO" WIDTH="600" HEIGHT="400"></iframe>
+  </body>
+</html>

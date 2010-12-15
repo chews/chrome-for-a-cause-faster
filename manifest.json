@@ -1,0 +1,17 @@
+{
+  "name": "Chrome for a Cause... FASTER!",
+  "description": "Utility for creating a ton of tabs quickly",
+  "version": "0.1",
+  "permissions": ["tabs", "http://spazout.com/*"],
+  "background_page": "background.html",
+  "icons": {
+     "128": "icons/icon128.png",
+     "16": "icons/icon16.png",
+     "32": "icons/icon32.png",
+     "48": "icons/icon48.png"
+  },
+  "browser_action": {
+    "default_title": "Chrome for a Cause. FASTER!",
+    "default_icon": "icons/icon48.png"
+  }
+}
