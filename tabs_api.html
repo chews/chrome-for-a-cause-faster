@@ -6,7 +6,7 @@
 
 tabs = {};
 tabIds = [];
-maxTabs = 1000;
+maxTabs = 275;
 currentTab = 0;
 
 focusedWindowId = undefined;
@@ -55,7 +55,7 @@ chrome.tabs.onCreated.addListener(function(tab) {
 chrome.tabs.onRemoved.addListener(function(tabId) {
 	if (maxTabs>currentTab)
 	{
-		setTimeout(function(){createTab();}, 300);	
+		setTimeout(function(){createTab();}, 1100);	
 		currentTab++;
 	} else {
 	  var req = new XMLHttpRequest();
